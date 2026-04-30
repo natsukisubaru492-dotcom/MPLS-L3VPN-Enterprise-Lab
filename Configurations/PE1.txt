@@ -1,0 +1,157 @@
+
+!
+version 15.7
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname PE1
+!
+boot-start-marker
+boot-end-marker
+!
+!
+!
+no aaa new-model
+!
+!
+!
+mmi polling-interval 60
+no mmi auto-configure
+no mmi pvc
+mmi snmp-timeout 180
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+
+
+!
+ip vrf VPN-A
+ rd 65001:1
+ route-target export 65001:1
+ route-target import 65001:1
+!
+!
+!
+!
+ip cef
+no ipv6 cef
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+redundancy
+!
+!
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Loopback0
+ no shutdown
+ ip address 2.2.2.2 255.255.255.255
+!
+interface Ethernet0/0
+ no shutdown
+ ip vrf forwarding VPN-A
+ ip address 192.168.1.2 255.255.255.0
+ duplex auto
+!
+interface Ethernet0/1
+ no shutdown
+ ip address 10.0.0.1 255.255.255.252
+ duplex auto
+ mpls ip
+!
+interface Ethernet0/2
+ no shutdown
+ no ip address
+ shutdown
+ duplex auto
+!
+interface Ethernet0/3
+ no shutdown
+ no ip address
+ shutdown
+ duplex auto
+!
+router ospf 1
+ router-id 2.2.2.2
+ network 2.2.2.2 0.0.0.0 area 0
+ network 10.0.0.0 0.0.0.3 area 0
+!
+router bgp 65001
+ bgp router-id 2.2.2.2
+ bgp log-neighbor-changes
+ no bgp default ipv4-unicast
+ neighbor 3.3.3.3 remote-as 65001
+ neighbor 3.3.3.3 update-source Loopback0
+ !
+ address-family vpnv4
+  neighbor 3.3.3.3 activate
+  neighbor 3.3.3.3 send-community extended
+ exit-address-family
+ !
+ address-family ipv4 vrf VPN-A
+  neighbor 192.168.1.1 remote-as 65101
+  neighbor 192.168.1.1 activate
+  neighbor 192.168.1.1 as-override
+ exit-address-family
+!
+ip forward-protocol nd
+!
+!
+no ip http server
+no ip http secure-server
+!
+ipv6 ioam timestamp
+!
+!
+!
+control-plane
+!
+!
+!
+!
+!
+!
+!
+!
+line con 0
+ logging synchronous
+line aux 0
+line vty 0 4
+ login
+ transport input none
+!
+!
+end
