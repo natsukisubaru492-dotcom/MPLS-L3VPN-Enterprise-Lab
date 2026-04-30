@@ -34,9 +34,10 @@ This repository includes the exported PnetLab/EVE-NG topology and the required C
 * WinSCP, FileZilla, or any SFTP client.
 
 ### Step 1: Import the Lab Topology
-1. Download the exported lab file from https://drive.google.com/drive/folders/1agp-7ylJa18vVc8ms_b1iiJDCyW8YfzI?usp=sharing 
+1. Download the exported lab file (e.g., `.unl` or `.zip`) from the `Eveng-Export/` directory.
 2. Open your PnetLab web interface.
 3. Click the **Import** button on the main dashboard and select the downloaded file to upload the topology.
+
 
 ### Step 2: Upload Cisco IOL Images
 This lab uses specific Cisco IOL images (located in the `Images/` folder of this repository). You need to upload them to your PnetLab server.
@@ -44,6 +45,7 @@ This lab uses specific Cisco IOL images (located in the `Images/` folder of this
 2. Upload the `.bin` files from the `Images/` folder to the following directory on the server:
    `/opt/unetlab/addons/iol/bin/`
 3. Ensure that your IOU license file (`iourc`) is also present in that directory to run the images.
+4. You can download CISCO IOL here: https://drive.google.com/drive/folders/1agp-7ylJa18vVc8ms_b1iiJDCyW8YfzI?usp=sharing 
 
 ### Step 3: Fix Permissions (Crucial)
 After uploading the image files, you must fix the folder permissions to prevent startup errors.
